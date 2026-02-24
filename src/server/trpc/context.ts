@@ -1,15 +1,15 @@
-import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 
-export default async function Home() {
+export async function createContext() {
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (user) {
-    redirect("/courses");
-  } else {
-    redirect("/login");
-  }
+  return {
+    supabase,
+    user,
+  };
 }
+
+export type Context = Awaited<ReturnType<typeof createContext>>;
