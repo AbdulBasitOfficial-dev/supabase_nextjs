@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { X, Save, Loader2 } from "lucide-react";
 
 interface Course {
@@ -96,7 +97,7 @@ export default function CourseForm({
   const labelClasses = "block text-sm font-medium text-text-secondary mb-1.5";
   const errorClasses = "text-xs text-danger mt-1";
 
-  return (
+  return createPortal(
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
       {/* Backdrop */}
       <div
@@ -332,6 +333,7 @@ export default function CourseForm({
           </div>
         </form>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
