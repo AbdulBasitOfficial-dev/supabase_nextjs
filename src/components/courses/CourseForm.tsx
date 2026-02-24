@@ -97,17 +97,17 @@ export default function CourseForm({
   const errorClasses = "text-xs text-danger mt-1";
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
       {/* Backdrop */}
       <div
         className="absolute inset-0 bg-black/60 backdrop-blur-sm"
         onClick={onClose}
       />
 
-      {/* Modal */}
-      <div className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto glass rounded-2xl p-6 animate-fade-in-up">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-6">
+      {/* Modal — flex column layout with constrained height */}
+      <div className="relative w-full max-w-2xl max-h-[90vh] glass rounded-2xl animate-fade-in-up flex flex-col overflow-hidden">
+        {/* Sticky Header */}
+        <div className="flex items-center justify-between p-6 pb-4 border-b border-border-default shrink-0">
           <h2 className="text-xl font-bold gradient-text">
             {course ? "Edit Course" : "Create New Course"}
           </h2>
@@ -119,189 +119,195 @@ export default function CourseForm({
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
-          {/* Title */}
-          <div>
-            <label htmlFor="course-title" className={labelClasses}>
-              Course Title *
-            </label>
-            <input
-              id="course-title"
-              type="text"
-              value={formData.title}
-              onChange={(e) =>
-                setFormData({ ...formData, title: e.target.value })
-              }
-              placeholder="e.g. Advanced React Patterns"
-              className={inputClasses}
-              maxLength={200}
-            />
-            {errors.title && <p className={errorClasses}>{errors.title}</p>}
-          </div>
-
-          {/* Description */}
-          <div>
-            <label htmlFor="course-description" className={labelClasses}>
-              Description *
-            </label>
-            <textarea
-              id="course-description"
-              value={formData.description}
-              onChange={(e) =>
-                setFormData({ ...formData, description: e.target.value })
-              }
-              placeholder="What will students learn in this course?"
-              className={`${inputClasses} min-h-[100px] resize-y`}
-              maxLength={2000}
-            />
-            {errors.description && (
-              <p className={errorClasses}>{errors.description}</p>
-            )}
-          </div>
-
-          {/* Two columns */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {/* Instructor */}
+        {/* Scrollable Form Body */}
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col overflow-hidden flex-1"
+        >
+          <div className="overflow-y-auto flex-1 p-6 space-y-5">
+            {/* Title */}
             <div>
-              <label htmlFor="course-instructor" className={labelClasses}>
-                Instructor *
+              <label htmlFor="course-title" className={labelClasses}>
+                Course Title *
               </label>
               <input
-                id="course-instructor"
+                id="course-title"
                 type="text"
-                value={formData.instructor}
+                value={formData.title}
                 onChange={(e) =>
-                  setFormData({ ...formData, instructor: e.target.value })
+                  setFormData({ ...formData, title: e.target.value })
                 }
-                placeholder="Instructor Name"
+                placeholder="e.g. Advanced React Patterns"
                 className={inputClasses}
-                maxLength={100}
+                maxLength={200}
               />
-              {errors.instructor && (
-                <p className={errorClasses}>{errors.instructor}</p>
+              {errors.title && <p className={errorClasses}>{errors.title}</p>}
+            </div>
+
+            {/* Description */}
+            <div>
+              <label htmlFor="course-description" className={labelClasses}>
+                Description *
+              </label>
+              <textarea
+                id="course-description"
+                value={formData.description}
+                onChange={(e) =>
+                  setFormData({ ...formData, description: e.target.value })
+                }
+                placeholder="What will students learn in this course?"
+                className={`${inputClasses} min-h-[100px] resize-y`}
+                maxLength={2000}
+              />
+              {errors.description && (
+                <p className={errorClasses}>{errors.description}</p>
               )}
             </div>
 
-            {/* Duration */}
-            <div>
-              <label htmlFor="course-duration" className={labelClasses}>
-                Duration *
-              </label>
-              <input
-                id="course-duration"
-                type="text"
-                value={formData.duration}
-                onChange={(e) =>
-                  setFormData({ ...formData, duration: e.target.value })
-                }
-                placeholder="e.g. 12 hours"
-                className={inputClasses}
-                maxLength={50}
-              />
-              {errors.duration && (
-                <p className={errorClasses}>{errors.duration}</p>
-              )}
+            {/* Two columns */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {/* Instructor */}
+              <div>
+                <label htmlFor="course-instructor" className={labelClasses}>
+                  Instructor *
+                </label>
+                <input
+                  id="course-instructor"
+                  type="text"
+                  value={formData.instructor}
+                  onChange={(e) =>
+                    setFormData({ ...formData, instructor: e.target.value })
+                  }
+                  placeholder="Instructor Name"
+                  className={inputClasses}
+                  maxLength={100}
+                />
+                {errors.instructor && (
+                  <p className={errorClasses}>{errors.instructor}</p>
+                )}
+              </div>
+
+              {/* Duration */}
+              <div>
+                <label htmlFor="course-duration" className={labelClasses}>
+                  Duration *
+                </label>
+                <input
+                  id="course-duration"
+                  type="text"
+                  value={formData.duration}
+                  onChange={(e) =>
+                    setFormData({ ...formData, duration: e.target.value })
+                  }
+                  placeholder="e.g. 12 hours"
+                  className={inputClasses}
+                  maxLength={50}
+                />
+                {errors.duration && (
+                  <p className={errorClasses}>{errors.duration}</p>
+                )}
+              </div>
+            </div>
+
+            {/* Two columns */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {/* Level */}
+              <div>
+                <label htmlFor="course-level" className={labelClasses}>
+                  Level *
+                </label>
+                <select
+                  id="course-level"
+                  value={formData.level}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      level: e.target.value as
+                        | "Beginner"
+                        | "Intermediate"
+                        | "Advanced",
+                    })
+                  }
+                  className={inputClasses}
+                >
+                  <option value="Beginner">🌱 Beginner</option>
+                  <option value="Intermediate">🔥 Intermediate</option>
+                  <option value="Advanced">⚡ Advanced</option>
+                </select>
+              </div>
+
+              {/* Category */}
+              <div>
+                <label htmlFor="course-category" className={labelClasses}>
+                  Category *
+                </label>
+                <select
+                  id="course-category"
+                  value={formData.category}
+                  onChange={(e) =>
+                    setFormData({ ...formData, category: e.target.value })
+                  }
+                  className={inputClasses}
+                >
+                  <option value="">Select Category</option>
+                  {categories.map((cat) => (
+                    <option key={cat} value={cat}>
+                      {cat}
+                    </option>
+                  ))}
+                </select>
+                {errors.category && (
+                  <p className={errorClasses}>{errors.category}</p>
+                )}
+              </div>
+            </div>
+
+            {/* Two columns */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {/* Price */}
+              <div>
+                <label htmlFor="course-price" className={labelClasses}>
+                  Price ($)
+                </label>
+                <input
+                  id="course-price"
+                  type="number"
+                  value={formData.price}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      price: parseFloat(e.target.value) || 0,
+                    })
+                  }
+                  placeholder="0.00"
+                  className={inputClasses}
+                  min="0"
+                  step="0.01"
+                />
+                {errors.price && <p className={errorClasses}>{errors.price}</p>}
+              </div>
+
+              {/* Image URL */}
+              <div>
+                <label htmlFor="course-image" className={labelClasses}>
+                  Image URL (optional)
+                </label>
+                <input
+                  id="course-image"
+                  type="url"
+                  value={formData.image_url}
+                  onChange={(e) =>
+                    setFormData({ ...formData, image_url: e.target.value })
+                  }
+                  placeholder="https://..."
+                  className={inputClasses}
+                />
+              </div>
             </div>
           </div>
 
-          {/* Two columns */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {/* Level */}
-            <div>
-              <label htmlFor="course-level" className={labelClasses}>
-                Level *
-              </label>
-              <select
-                id="course-level"
-                value={formData.level}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    level: e.target.value as
-                      | "Beginner"
-                      | "Intermediate"
-                      | "Advanced",
-                  })
-                }
-                className={inputClasses}
-              >
-                <option value="Beginner">🌱 Beginner</option>
-                <option value="Intermediate">🔥 Intermediate</option>
-                <option value="Advanced">⚡ Advanced</option>
-              </select>
-            </div>
-
-            {/* Category */}
-            <div>
-              <label htmlFor="course-category" className={labelClasses}>
-                Category *
-              </label>
-              <select
-                id="course-category"
-                value={formData.category}
-                onChange={(e) =>
-                  setFormData({ ...formData, category: e.target.value })
-                }
-                className={inputClasses}
-              >
-                <option value="">Select Category</option>
-                {categories.map((cat) => (
-                  <option key={cat} value={cat}>
-                    {cat}
-                  </option>
-                ))}
-              </select>
-              {errors.category && (
-                <p className={errorClasses}>{errors.category}</p>
-              )}
-            </div>
-          </div>
-
-          {/* Two columns */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {/* Price */}
-            <div>
-              <label htmlFor="course-price" className={labelClasses}>
-                Price ($)
-              </label>
-              <input
-                id="course-price"
-                type="number"
-                value={formData.price}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    price: parseFloat(e.target.value) || 0,
-                  })
-                }
-                placeholder="0.00"
-                className={inputClasses}
-                min="0"
-                step="0.01"
-              />
-              {errors.price && <p className={errorClasses}>{errors.price}</p>}
-            </div>
-
-            {/* Image URL */}
-            <div>
-              <label htmlFor="course-image" className={labelClasses}>
-                Image URL (optional)
-              </label>
-              <input
-                id="course-image"
-                type="url"
-                value={formData.image_url}
-                onChange={(e) =>
-                  setFormData({ ...formData, image_url: e.target.value })
-                }
-                placeholder="https://..."
-                className={inputClasses}
-              />
-            </div>
-          </div>
-
-          {/* Submit */}
-          <div className="flex items-center gap-3 pt-4 border-t border-border-default">
+          {/* Sticky Footer — always visible */}
+          <div className="flex items-center gap-3 p-6 pt-4 border-t border-border-default shrink-0 bg-bg-card/50">
             <button
               type="button"
               onClick={onClose}
